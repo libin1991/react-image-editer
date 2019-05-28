@@ -80,6 +80,7 @@ class CutEffect extends Component {
               right: 0
             },
             initPosition,
+            draggedPosition:initPosition,
             preRatio: ratio
           };
         });
@@ -101,7 +102,6 @@ class CutEffect extends Component {
       width: target.clientWidth,
       height: target.clientHeight
     };
-    // console.log(imgObj)
     if (imgObj.width > imgObj.height) {
       this.setState(() => {
         return {
@@ -197,14 +197,11 @@ class CutEffect extends Component {
     }
   }
   componentWillReceiveProps(pre, next) {
-    console.log(pre.isPost)
     if (pre.isPost) {
-      console.log("222222222")
       this.postData();
       return;
     }
     //初始化状态
-    // console.log("pre:", pre);
     if (pre.isCloseToUpdate && pre.isPost == this.props.isPost) {
       this.reInitImage(pre);
     }
@@ -244,7 +241,7 @@ class CutEffect extends Component {
   }
   render() {
     // console.log(this.props);
-    const { objStyles, controled, initPosition, value } = this.state;
+    const { objStyles, controled, initPosition, value ,draggedPosition} = this.state;
     const { handleDrag } = this;
     const { imgUrl } = this.props;
     return (
@@ -273,11 +270,12 @@ class CutEffect extends Component {
                     ref={ref => (this.childNode = ref)}
                     style={{
                       position: "relative",
-                      top: initPosition.y,
-                      left: initPosition.x,
+                      top: draggedPosition.y,
+                      left: draggedPosition.x,
                       width: objStyles.width,
                       height: objStyles.height
                     }}
+                    data-ccc={initPosition.x}
                   />
                 </div>
               </div>
